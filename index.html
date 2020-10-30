@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="bluez-web-bluetooth" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <script src="telink_heart_rate.js"></script>
+        <script src="telink-heart-rate.js"></script>
 
     </head>
     <style>
@@ -22,8 +22,9 @@
           <button id="btn-disconnet" onclick="deviceDisconnect()">Disconnect</button><br><br>
           <textarea id="log" cols="90" rows="20" readonly="readonly"></textarea>
         </div>
-        <div id="drop" style="width: 700px; height: 350px; float: right; background-color:darkgray">
-          <div id="statusText">Heare Rate &#x2764;</div><br><br><br><br>
+        <div id="drop" style="width: 700px; height: 350px; float: right; background-color:slategray">
+          <div id="hrInfo">Heare Rate Info</div><br>
+          <div id="statusText" style="float:left">Heare Rate &#x2764;</div><br><br><br><br>
           <canvas id="waves" style="width: 650px; height: 100px;"></canvas>
         </div>
       </div>
@@ -141,7 +142,7 @@
    * @OTA_Authorization
    * Process feedback after a command is sent
    */
-  function OTA_Authorization(gattServer) {
+  function Data_info_manage(gattServer) {
     heartRates = [];
     gattServer.getPrimaryService("0000180d-0000-1000-8000-00805f9b34fb")
       .then(service => {
@@ -165,7 +166,7 @@
             addLoginfo("notify-value: " + ntvalue);
             author_log();
             var heartRateMeasurement = parseHeartRate(souvalue);
-            statusText.innerHTML = heartRateMeasurement.heartRate + ' &#x2764;';
+            statusText.innerHTML = " Heart Rate: " + heartRateMeasurement.heartRate/8 + ' &#x2764;';
             heartRates.push(heartRateMeasurement.heartRate);
             drawWaves();
         }).catch(error => console.log(error));
